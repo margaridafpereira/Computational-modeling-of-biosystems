@@ -1,0 +1,1 @@
+write.fasta(name="pinguim", sequences = pinguim, file.out = "pinguim.fasta") #gravação num ficheiro FASTA

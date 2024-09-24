@@ -1,0 +1,1 @@
+plot(table(pinguimseq))
