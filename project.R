@@ -2,7 +2,7 @@
 
 #1. Pinguim (Spheniscidae)
 
-#2.1. Pinguim - Código de acesso: NC_021474.1
+#2.1. Pinguim - CÃ³digo de acesso: NC_021474.1
 
 
 library(BiocGenerics)
@@ -15,10 +15,10 @@ library(seqinr)
 
 
 pinguim<-read.fasta(file = "NC_021474.1.fasta") #leitura de arquivo no formato FASTA
-pinguimseq<-pinguim[[1]] #pinguimseq contém a sequência do genoma - criação de um vetor
+pinguimseq<-pinguim[[1]] #pinguimseq contÃ©m a sequÃªncia do genoma - criaÃ§Ã£o de um vetor
 pinguimSeqString <- c2s(pinguimseq)
 length(pinguimseq)
-write.fasta(name="pinguim", sequences = pinguim, file.out = "pinguim.fasta") #gravação num ficheiro FASTA
+write.fasta(name="pinguim", sequences = pinguim, file.out = "pinguim.fasta") #gravaÃ§Ã£o num ficheiro FASTA
 
 
 #3.1.1.
@@ -42,23 +42,23 @@ count(pinguimseq,3,freq = T)
 
 
 codoesmatch<-function(pinguimseq){
-  codoesin<-c("atg") #atg é o codão start que vai ser armazenado pelo codoesin
-  codao<-codoesin[1] #cria o vetor codao para conter os codões start
-  ocorrenciasin<-matchPattern(codao,c2s(pinguimseq)) #pesquisa na sequência pinguimseq o "atg"
-  tamanho<-length(ocorrenciasin) #variável tamanho armazena o número de ocorrências do codão start
-  print("Número de ocorrências do codão de start:")
-  print(tamanho) #print do número de codões start
-  codoesfim<-c("taa","tag","tga") #"taa","tag" e "tga" são os codões stop que serão armazenados pelo codoesfim
+  codoesin<-c("atg") #atg Ã© o codÃ£o start que vai ser armazenado pelo codoesin
+  codao<-codoesin[1] #cria o vetor codao para conter os codÃµes start
+  ocorrenciasin<-matchPattern(codao,c2s(pinguimseq)) #pesquisa na sequÃªncia pinguimseq o "atg"
+  tamanho<-length(ocorrenciasin) #variÃ¡vel tamanho armazena o nÃºmero de ocorrÃªncias do codÃ£o start
+  print("NÃºmero de ocorrÃªncias do codÃ£o de start:")
+  print(tamanho) #print do nÃºmero de codÃµes start
+  codoesfim<-c("taa","tag","tga") #"taa","tag" e "tga" sÃ£o os codÃµes stop que serÃ£o armazenados pelo codoesfim
   tamanhototal<-0
   for(i in 1:3)
   {
-    codaofim<-codoesfim[i] #cria um vetor para os codões stop
-    ocorrenciasfim<-matchPattern(codaofim,c2s(pinguimseq)) #pesquisa na sequência as 3 combinações
-    tamanhofinal<-length(ocorrenciasfim) #armazena o número de ocorrências dos codões de stop
-    tamanhototal<-tamanhototal+tamanhofinal #calcula o número de codões stop
+    codaofim<-codoesfim[i] #cria um vetor para os codÃµes stop
+    ocorrenciasfim<-matchPattern(codaofim,c2s(pinguimseq)) #pesquisa na sequÃªncia as 3 combinaÃ§Ãµes
+    tamanhofinal<-length(ocorrenciasfim) #armazena o nÃºmero de ocorrÃªncias dos codÃµes de stop
+    tamanhototal<-tamanhototal+tamanhofinal #calcula o nÃºmero de codÃµes stop
   }
-  print("Número de ocorrências de codões stop:")
-  print(tamanhototal) #print do número de codões stop
+  print("NÃºmero de ocorrÃªncias de codÃµes stop:")
+  print(tamanhototal) #print do nÃºmero de codÃµes stop
 }
 
 
@@ -70,34 +70,34 @@ findCodoes<-function(inputseqString){
   codoes<-c("atg","taa","tag","tga")
   for (i in 1:4){
     codao<-codoes[i]
-    ocorrencias<- matchPattern(codao,inputseqString) #Encontra todas as ocorrências de um determinado codão na sequência
-    posicoesCodoes<-start(ocorrencias) #Encontra as posições iniciais de todas as ocorrências de cada codão na sequência 
-    numeroOcorr <- length(posicoesCodoes) #Determina o número de vezes que um certo codão ocorre na sequência
+    ocorrencias<- matchPattern(codao,inputseqString) #Encontra todas as ocorrÃªncias de um determinado codÃ£o na sequÃªncia
+    posicoesCodoes<-start(ocorrencias) #Encontra as posiÃ§Ãµes iniciais de todas as ocorrÃªncias de cada codÃ£o na sequÃªncia 
+    numeroOcorr <- length(posicoesCodoes) #Determina o nÃºmero de vezes que um certo codÃ£o ocorre na sequÃªncia
     if(i==1){
       posicoes<-posicoesCodoes
-      tipos<-rep(codao,numeroOcorr) #Copia para o vetor um determinado codão ("codao"),um determinado número de ocorrências ("numeroOcorr")
+      tipos<-rep(codao,numeroOcorr) #Copia para o vetor um determinado codÃ£o ("codao"),um determinado nÃºmero de ocorrÃªncias ("numeroOcorr")
     }else{
       posicoes<-append(posicoes,posicoesCodoes,after = length(posicoes)) 
       tipos <- append(tipos,rep(codao,numeroOcorr),after = length(tipos))
-      #Função "append" adiciona a um determinado vetor,um determinado objeto,numa determinada posição 
+      #FunÃ§Ã£o "append" adiciona a um determinado vetor,um determinado objeto,numa determinada posiÃ§Ã£o 
     }
   }
   indices <- order(posicoes)
   posicoes<-posicoes[indices]
   tipos<-tipos[indices]
-  #Ordena os vetores "posicoes" e "tipos" pela ordem de posições em que ocorrem ao longo da sequência
-  listaPing<-list(posicoes,tipos) #Cria uma lista que inclui as posições de cada codão na sequência e o respetivo codão
+  #Ordena os vetores "posicoes" e "tipos" pela ordem de posiÃ§Ãµes em que ocorrem ao longo da sequÃªncia
+  listaPing<-list(posicoes,tipos) #Cria uma lista que inclui as posiÃ§Ãµes de cada codÃ£o na sequÃªncia e o respetivo codÃ£o
   return(listaPing) 
 }
 
 
 findOrfs<-function(inputseq){
-  inputseq<-c2s(inputseq) #Transforma a sequência de caracteres numa string
-  pinguimLista<-findCodoes(inputseq) #Vai buscar informação à função findCodoes
-  posicoes<- pinguimLista[[1]] #Vai buscar as posições à função findCodoes
-  codoes<-pinguimLista[[2]] #Vai buscar os codões à função findCodoes
-  posIniciais <- numeric() #Vetor de números
-  posFinais<- numeric() #Vetor de números
+  inputseq<-c2s(inputseq) #Transforma a sequÃªncia de caracteres numa string
+  pinguimLista<-findCodoes(inputseq) #Vai buscar informaÃ§Ã£o Ã  funÃ§Ã£o findCodoes
+  posicoes<- pinguimLista[[1]] #Vai buscar as posiÃ§Ãµes Ã  funÃ§Ã£o findCodoes
+  codoes<-pinguimLista[[2]] #Vai buscar os codÃµes Ã  funÃ§Ã£o findCodoes
+  posIniciais <- numeric() #Vetor de nÃºmeros
+  posFinais<- numeric() #Vetor de nÃºmeros
   subSeq<- character() #Vetor de caracteres
   cond1 <-0
   cond2<-0
@@ -109,7 +109,7 @@ findOrfs<-function(inputseq){
         posIniciais<-append(posIniciais,posicoes[i])
         cond1<-1
         cond2<-1
-        #Como a cond1 e a cond2 passaram a 1, encontrado codão de iniciação
+        #Como a cond1 e a cond2 passaram a 1, encontrado codÃ£o de iniciaÃ§Ã£o
     }
       }else if(cond1==1 && cond2==1){
       if(codoes[i]=="taa"||codoes[i]=="tga"||codoes[i]=="tag"){
@@ -117,11 +117,11 @@ findOrfs<-function(inputseq){
           posFinais<-append(posFinais,posicoes[i]+2)
           cond1<-0
           cond2<-0
-          #A cond1 e a cond2 passam a 0 se for encontrado um codão de finalização
+          #A cond1 e a cond2 passam a 0 se for encontrado um codÃ£o de finalizaÃ§Ã£o
         }else{
           cond1<- 1
           cond2<- 1
-          #A cond1 e a cond2 continuam a 1 se não for encontrado um codão de finalização
+          #A cond1 e a cond2 continuam a 1 se nÃ£o for encontrado um codÃ£o de finalizaÃ§Ã£o
         }
       }
     }
@@ -129,7 +129,7 @@ findOrfs<-function(inputseq){
   for(i in 1:length(posFinais)){
     a<-substring(inputseq,posIniciais[i],posFinais[i])
     subSeq<-append(subSeq,a)
-    #Quebra a sequência de DNA em ORFs
+    #Quebra a sequÃªncia de DNA em ORFs
   }
   for(i in 1:length(subSeq)){
     if(nchar(subSeq[i])>maior){
@@ -138,10 +138,10 @@ findOrfs<-function(inputseq){
       #Na lista de ORF obtida procura qual o maior
     }
   }
-  maiorOrf<-subSeq[posMaior] #Guarda a sequência do maior ORF
+  maiorOrf<-subSeq[posMaior] #Guarda a sequÃªncia do maior ORF
   return(maiorOrf)
 }
-maiorOrf<-findOrfs(pinguimseq) #Guarda na variável maiorOrf a sequência do maior ORF
+maiorOrf<-findOrfs(pinguimseq) #Guarda na variÃ¡vel maiorOrf a sequÃªncia do maior ORF
 
 
 
@@ -150,30 +150,30 @@ maiorOrf<-findOrfs(pinguimseq) #Guarda na variável maiorOrf a sequência do maior
 
 translatemRNA <- function(seqOrf){
   seqOrf <- s2c (seqOrf) #Transforma a string do maior ORF em caracteres
-  mRNA <- seqOrf #mRNA assume a sequência de carateres
-  for (i in 1:length(seqOrf)){ #Em toda a sequência de caracteres ocorrerão as transcrições apresentadas no respetivo ciclo
+  mRNA <- seqOrf #mRNA assume a sequÃªncia de carateres
+  for (i in 1:length(seqOrf)){ #Em toda a sequÃªncia de caracteres ocorrerÃ£o as transcriÃ§Ãµes apresentadas no respetivo ciclo
     if (seqOrf[i] == 't'){
-      mRNA[i]<- 'u' #Nucleótido T passa a U
+      mRNA[i]<- 'u' #NucleÃ³tido T passa a U
     }
   }
   mRNA <- c2s (mRNA) #Transforma os caracteres do mRNA em string 
   return (mRNA) #Retorna o mRNA
 }
-mRNA<-translatemRNA(maiorOrf) #Guarda na variável mRNA a transcrição do DNA
+mRNA<-translatemRNA(maiorOrf) #Guarda na variÃ¡vel mRNA a transcriÃ§Ã£o do DNA
 
 
 #3.1.4.2.
 
 
 translateprotein <- function(maiorOrf){
-  proteina<- translate(s2c(maiorOrf)) #Transforma a string do mRNA em caracteres, função translate traduz o mRNA em aminoácidos 
-  return(proteina) #Retorna a proteína (aminoácidos)
+  proteina<- translate(s2c(maiorOrf)) #Transforma a string do mRNA em caracteres, funÃ§Ã£o translate traduz o mRNA em aminoÃ¡cidos 
+  return(proteina) #Retorna a proteÃ­na (aminoÃ¡cidos)
 }
-proteina<-translateprotein(maiorOrf) #Guarda na variável proteina a tradução do mRNA
+proteina<-translateprotein(maiorOrf) #Guarda na variÃ¡vel proteina a traduÃ§Ã£o do mRNA
 
 
 translateproteins <- function(maiorOrf){
-  codoes<-sapply(seq(1,nchar(mRNA),3), function(i)substring(mRNA,i,i+2)) #Divide o mRNA em sequências de 3
+  codoes<-sapply(seq(1,nchar(mRNA),3), function(i)substring(mRNA,i,i+2)) #Divide o mRNA em sequÃªncias de 3
   n<-length(codoes) #Determina o comprimento do vetor "codoes"
   proteinas<-character(n) #Cria um vetor vazio com o mesmo comprimento que o vetor "codoes"
   
@@ -279,11 +279,11 @@ translateproteins <- function(maiorOrf){
       proteinas[i]<-"Cist" 
     }
     
-    #Associa a cada codão o respetivo aminoácido
+    #Associa a cada codÃ£o o respetivo aminoÃ¡cido
   }
   return(proteinas)
 }
-proteinas<-translateproteins(maiorOrf) #Guarda na variável proteinas a tradução do mRNA
+proteinas<-translateproteins(maiorOrf) #Guarda na variÃ¡vel proteinas a traduÃ§Ã£o do mRNA
 
 
 #3.1.5.1.
@@ -295,13 +295,13 @@ slidingwindowGC<-function(windowsize,inputseq)
   n<-length(starts) #Determina o comprimento do vetor "starts"
   chunkGCs<-numeric(n) #Cria um vetor com o mesmo comprimento que o vetor "starts" mas, apenas contendo zeros 
   for(i in 1:n){
-    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequência para ser analisada
-    chunkGC<-GC(chunk) #Na sequência anterior conta a frequência dos nucleótidos "C" e "G" e  soma-os
-    chunkGCs[i]<-chunkGC #Guarda em posições sucessivas o valor da frequência do conteúdo "GC"
+    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequÃªncia para ser analisada
+    chunkGC<-GC(chunk) #Na sequÃªncia anterior conta a frequÃªncia dos nucleÃ³tidos "C" e "G" e  soma-os
+    chunkGCs[i]<-chunkGC #Guarda em posiÃ§Ãµes sucessivas o valor da frequÃªncia do conteÃºdo "GC"
   }
-  plot(starts,chunkGCs,type="l",xlab="Posição inicial do nucleótido",ylab="Conteúdo GC") #Legenda os eixos x e y
-  conteudoGC<-GC(pinguimseq) #Conteúdo "GC" na sequência
-  print(conteudoGC) #Faz print do conteúdo "GC"
+  plot(starts,chunkGCs,type="l",xlab="PosiÃ§Ã£o inicial do nucleÃ³tido",ylab="ConteÃºdo GC") #Legenda os eixos x e y
+  conteudoGC<-GC(pinguimseq) #ConteÃºdo "GC" na sequÃªncia
+  print(conteudoGC) #Faz print do conteÃºdo "GC"
 }
 
 
@@ -315,11 +315,11 @@ slidingwindowAT<-function(windowsize,inputseq)
   chunkATs<-numeric(n) #Cria um vetor com o mesmo comprimento que o vetor "starts" mas, apenas contendo zeros
   for(i in 1:n)
   {
-    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequência para ser analisada
-    chunkAT<-count(chunk,1,freq = T)["a"]+count(chunk,1,freq = T)["t"] #Na sequência anterior conta a frequência dos nucleótidos "A" e "T" e soma-os
-    chunkATs[i]<-chunkAT #Guarda em posições sucessivas o valor da frequência do conteúdo "AT"
+    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequÃªncia para ser analisada
+    chunkAT<-count(chunk,1,freq = T)["a"]+count(chunk,1,freq = T)["t"] #Na sequÃªncia anterior conta a frequÃªncia dos nucleÃ³tidos "A" e "T" e soma-os
+    chunkATs[i]<-chunkAT #Guarda em posiÃ§Ãµes sucessivas o valor da frequÃªncia do conteÃºdo "AT"
   }
-  plot(starts,chunkATs,type="l",xlab="Posição inicial do nucleótido",ylab="Conteúdo AT",col="black") # Atribuição da cor à linha do gráfico e legenda dos eixos
+  plot(starts,chunkATs,type="l",xlab="PosiÃ§Ã£o inicial do nucleÃ³tido",ylab="ConteÃºdo AT",col="black") # AtribuiÃ§Ã£o da cor Ã  linha do grÃ¡fico e legenda dos eixos
 }
 
 
@@ -336,21 +336,21 @@ slidingwindownucleotidos<-function(windowsize,inputseq)
   chunkCs<-numeric(n) 
   # Cria vetores com o mesmo comprimento que o vector "starts" mas, apenas contendo zeros
   for(i in 1:n){
-    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequência para ser analisada
+    chunk<-inputseq[starts[i]:(starts[i]+windowsize-1)] #Guarda parte da sequÃªncia para ser analisada
     chunkA<-count(chunk,1,freq = T)["a"] 
     chunkT<-count(chunk,1,freq = T)["t"] 
     chunkG<-count(chunk,1,freq = T)["g"] 
     chunkC<-count(chunk,1,freq = T)["c"] 
-    # Armazenam a frequência de cada um dos nucleótidos
+    # Armazenam a frequÃªncia de cada um dos nucleÃ³tidos
     chunkAs[i]<-chunkA 
     chunkTs[i]<-chunkT 
     chunkGs[i]<-chunkG 
     chunkCs[i]<-chunkC 
-    # Guardam em posições sucessivas o valor da frequência de cada um dos nucleótidos
+    # Guardam em posiÃ§Ãµes sucessivas o valor da frequÃªncia de cada um dos nucleÃ³tidos
   }
   lim2<-max(chunkAs,chunkTs,chunkGs,chunkCs)
   lim1<-min(chunkAs,chunkTs,chunkGs,chunkCs)
-  plot(starts,chunkAs,ylim=range(c(lim1,lim2)),type="l",xlab="Posição inicial do nucleótido",ylab="Conteúdo dos nucleótidos",col="blue") 
+  plot(starts,chunkAs,ylim=range(c(lim1,lim2)),type="l",xlab="PosiÃ§Ã£o inicial do nucleÃ³tido",ylab="ConteÃºdo dos nucleÃ³tidos",col="blue") 
   par(new=TRUE)
   plot(starts,chunkTs,ylim=range(c(lim1,lim2)),type="l",xlab="",ylab="",col="red") 
   par(new=TRUE)
@@ -358,5 +358,5 @@ slidingwindownucleotidos<-function(windowsize,inputseq)
   par(new=TRUE)
   plot(starts,chunkCs,ylim=range(c(lim1,lim2)),type="l",xlab="",ylab="",col="green") 
   legend("bottomleft",legend=c("A","T","G","C"),text.col = c("blue","red","yellow","green"),box.lty = 0,horiz = F)
-  # Atribuição da respetiva cor a cada uma das  linhas do gráfico e legenda dos eixos
+  # AtribuiÃ§Ã£o da respetiva cor a cada uma das  linhas do grÃ¡fico e legenda dos eixos
 }
